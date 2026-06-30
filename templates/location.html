@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Access</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="location-card">
+            <div class="location-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+            </div>
+            <h1 class="location-title">Joylashuvni aniqlash</h1>
+            <p class="location-subtitle">Sayt to'liq ishlashi uchun joylashuv ruxsati talab qilinadi</p>
+            <div class="form-divider">
+                <div class="form-divider-line"></div>
+                <div class="form-divider-diamond">◆</div>
+                <div class="form-divider-line"></div>
+            </div>
+            <p class="location-desc">
+                Ilovadan foydalanishni davom ettirish uchun joylashuvingizni aniqlashga ruxsat bering.
+            </p>
+            <div id="error-box" class="error-banner" style="display:none;"></div>
+            <button id="allow-location" class="location-button">
+                <span class="pulse-ring"></span>
+                Ha
+            </button>
+            <div id="loading" class="location-loading" style="display:none;">
+                <div class="spinner"></div>
+                <span>Aniqlanmoqda...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('allow-location').addEventListener('click', function() {
+            var btn = this;
+            var loading = document.getElementById('loading');
+            var errorBox = document.getElementById('error-box');
+
+            btn.style.display = 'none';
+            loading.style.display = 'flex';
+            errorBox.style.display = 'none';
+
+            if (!navigator.geolocation) {
+                errorBox.textContent = 'Geolokatsiya qo\'llab-quvvatlanmaydi.';
+                errorBox.style.display = 'block';
+                btn.style.display = 'flex';
+                loading.style.display = 'none';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    fetch('{{ url_for("save_location") }}', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lat: lat, lng: lng })
+                    })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (data.ok) {
+                            window.location.href = '{{ url_for("hello") }}';
+                        }
+                    });
+                },
+                function(error) {
+                    btn.style.display = 'flex';
+                    loading.style.display = 'none';
+                    if (error.code === 1) {
+                        errorBox.textContent = 'Joylashuv ruxsati berilmadi. Sahifani yangilab, qayta urinib ko\'ring.';
+                    } else {
+                        errorBox.textContent = 'Joylashuvni aniqlashda xatolik yuz berdi. Qayta urinib ko\'ring.';
+                    }
+                    errorBox.style.display = 'block';
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+    </script>
+</body>
+</html>

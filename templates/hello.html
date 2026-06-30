@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="hello-card" id="helloCard">
+            <p class="hello-greeting" id="greeting"></p>
+            <h1 class="hello-text" id="mainText"></h1>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="aiModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">⎔</div>
+                <h2>AI Engineering — Yo'l xaritasi</h2>
+                <p class="modal-subtitle">Sun'iy intellekt muhandisi bo'lish uchun quyidagi bosqichlarni o'zlashtiring</p>
+            </div>
+            <div class="modal-layout">
+                <div class="modal-body">
+                    <div class="section">
+                        <h3>📚 O'rganiladigan mavzular</h3>
+                        <ul>
+                            <li><strong>Python</strong> — asosiy dasturlash tili (sintaksis, OOP, funksiyalar, modullar)</li>
+                            <li><strong>Matematika</strong> — Chiziqli algebra, Matematik analiz, Ehtimollar nazariyasi, Statistika</li>
+                            <li><strong>Machine Learning</strong> — Regression, Klassifikatsiya, Klasterizatsiya, Decision Trees, SVM</li>
+                            <li><strong>Deep Learning</strong> — Neyron tarmoqlar, CNN, RNN, LSTM, Transformers</li>
+                            <li><strong>NLP</strong> — Matnni qayta ishlash, BERT, GPT, LLM-lar, RAG</li>
+                            <li><strong>Computer Vision</strong> — Rasm tahlili, YOLO, OpenCV, Image Segmentation</li>
+                            <li><strong>Muloqotli AI</strong> — LangChain, AutoGPT, Agent tizimlari, Prompt Engineering</li>
+                            <li><strong>MLOps</strong> — Modelni deploy qilish, monitoring, CI/CD, Docker</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>🛠 Kompyuterda bo'lishi kerak bo'lgan vositalar</h3>
+                        <ul>
+                            <li><strong>Python</strong> (3.10+) — <code>python.org</code> dan yuklab oling, PATH ga qo'shing</li>
+                            <li><strong>VS Code</strong> — kod yozish uchun eng yaxshi muharrir</li>
+                            <li><strong>Jupyter Notebook / Jupyter Lab</strong> — tajriba o'tkazish va vizualizatsiya uchun</li>
+                            <li><strong>Git</strong> — versiya nazorati, GitHub bilan ishlash uchun</li>
+                            <li><strong>Docker Desktop</strong> — konteynerlashtirish va deploy uchun</li>
+                            <li><strong>CUDA Toolkit + cuDNN</strong> — NVIDIA GPU bilan ishlash uchun (agar GPU bo'lsa)</li>
+                            <li><strong>Anaconda / Miniconda</strong> — virtual muhitlarni boshqarish uchun</li>
+                            <li><strong>Postman</strong> — API test qilish uchun</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>📦 O'rnatilishi kerak bo'lgan Python kutubxonalari</h3>
+                        <div class="code-block">pip install numpy pandas matplotlib seaborn<br>pip install scikit-learn tensorflow torch torchvision<br>pip install transformers datasets langchain openai<br>pip install opencv-python pillow fastapi uvicorn<br>pip install mlflow docker streamlit gradio</div>
+                    </div>
+                    <div class="section">
+                        <h3>⚙ O'rnatish bosqichlari</h3>
+                        <ol>
+                            <li><strong>Python</strong> ni <code>python.org</code> dan yuklab o'rnating (o'rnatishda "Add Python to PATH" ni belgilang)</li>
+                            <li><strong>VS Code</strong> ni yuklab o'rnating, Python kengaytmasini qo'shing</li>
+                            <li>Terminalda <code>pip install jupyterlab</code> ni bajaring, so'ng <code>jupyter lab</code> bilan ishga tushiring</li>
+                            <li><strong>Git</strong> ni yuklab o'rnating, <code>git config --global user.name</code> va <code>user.email</code> ni sozlang</li>
+                            <li><strong>Docker Desktop</strong> ni yuklab o'rnating, WSL2 backend ni sozlang</li>
+                            <li>Virtual muhit yarating: <code>python -m venv ai_env</code> va faollashtiring</li>
+                            <li>Yuqoridagi barcha kutubxonalarni <code>pip install</code> bilan o'rnating</li>
+                            <li>NVIDIA GPU bo'lsa, <strong>CUDA Toolkit</strong> ni NVIDIA saytidan yuklab o'rnating</li>
+                        </ol>
+                    </div>
+                    <div class="section">
+                        <h3>🏁 Qisqa yo'l xaritasi (3 oylik reja)</h3>
+                        <ul>
+                            <li><strong>1-hafta:</strong> Python sintaksis, Git, Jupyter, NumPy, Pandas</li>
+                            <li><strong>2-3-hafta:</strong> Matematika asoslari, Scikit-learn, Machine Learning algoritmlari</li>
+                            <li><strong>4-6-hafta:</strong> Deep Learning, TensorFlow/PyTorch, neyron tarmoqlar</li>
+                            <li><strong>7-8-hafta:</strong> NLP, Computer Vision, Transformer modellar</li>
+                            <li><strong>9-10-hafta:</strong> MLOps, Docker, FastAPI, deploy</li>
+                            <li><strong>11-12-hafta:</strong> Real loyiha, GitHub portfoli, yakuniy loyiha</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-sidebar" id="weatherPanel">
+                    <div class="weather-card">
+                        <div class="weather-header">
+                            <div class="weather-icon">🌍</div>
+                            <h3>Joylashuv & Ob-havo</h3>
+                        </div>
+                        <div id="weatherLoading" class="weather-loading">
+                            <div class="spinner"></div>
+                            <span>Ma'lumot olinmoqda...</span>
+                        </div>
+                        <div id="weatherContent" class="weather-content" style="display:none;">
+                            <div class="weather-location">
+                                <span class="weather-label">Joylashuv</span>
+                                <span class="weather-city" id="cityName">—</span>
+                            </div>
+                            <div class="weather-divider"></div>
+                            <div class="weather-temp-row">
+                                <span class="weather-temp-icon" id="weatherIcon">☀️</span>
+                                <span class="weather-temp-value" id="tempValue">--°C</span>
+                            </div>
+                            <div class="weather-desc" id="weatherDesc">—</div>
+                            <div class="weather-details">
+                                <div class="weather-detail">
+                                    <span class="weather-detail-label">Namlik</span>
+                                    <span class="weather-detail-value" id="humidityValue">--%</span>
+                                </div>
+                                <div class="weather-detail">
+                                    <span class="weather-detail-label">Shamol</span>
+                                    <span class="weather-detail-value" id="windValue">-- m/s</span>
+                                </div>
+                                <div class="weather-detail">
+                                    <span class="weather-detail-label">Bosim</span>
+                                    <span class="weather-detail-value" id="pressureValue">-- hPa</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="weatherError" class="weather-error" style="display:none;">
+                            Ob-havo ma'lumotini olishda xatolik yuz berdi
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var USER_LAT = {{ lat | tojson | safe }};
+        var USER_LNG = {{ lng | tojson | safe }};
+
+        function fetchWeather() {
+            if (USER_LAT == null || USER_LNG == null) {
+                document.getElementById('weatherLoading').style.display = 'none';
+                document.getElementById('weatherError').style.display = 'block';
+                document.getElementById('weatherError').textContent = 'Joylashuv ma\'lumoti mavjud emas';
+                return;
+            }
+            fetch('/weather?lat=' + USER_LAT + '&lon=' + USER_LNG)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    document.getElementById('weatherLoading').style.display = 'none';
+                    if (data.error || data.cod === '404' || data.cod === 404) {
+                        document.getElementById('weatherError').style.display = 'block';
+                        return;
+                    }
+                    document.getElementById('weatherContent').style.display = 'block';
+                    document.getElementById('cityName').textContent = data.name || 'Noma\'lum';
+                    document.getElementById('tempValue').textContent = Math.round(data.main.temp) + '°C';
+                    document.getElementById('weatherDesc').textContent =
+                        (data.weather && data.weather[0] && data.weather[0].description) || '—';
+                    document.getElementById('humidityValue').textContent = data.main.humidity + '%';
+                    document.getElementById('windValue').textContent = data.wind.speed + ' m/s';
+                    document.getElementById('pressureValue').textContent = data.main.pressure + ' hPa';
+                    var iconMap = {
+                        '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+                        '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+                        '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+                        '11d': '⛈️', '11n': '⛈️', '13d': '🌨️', '13n': '🌨️',
+                        '50d': '🌫️', '50n': '🌫️'
+                    };
+                    var icon = data.weather && data.weather[0] ? data.weather[0].icon : '01d';
+                    document.getElementById('weatherIcon').textContent = iconMap[icon] || '☀️';
+                })
+                .catch(function() {
+                    document.getElementById('weatherLoading').style.display = 'none';
+                    document.getElementById('weatherError').style.display = 'block';
+                });
+        }
+
+        (function() {
+            var greetingEl = document.getElementById('greeting');
+            var mainTextEl = document.getElementById('mainText');
+            var helloCard = document.getElementById('helloCard');
+            var modal = document.getElementById('aiModal');
+
+            var phrases = [
+                'Assalomu aleykum',
+                'Hello World'
+            ];
+            var targetText = 'ಈರ್ ಹ್ಯಾಕ್ ಆಯೆರ್';
+
+            var typeDelay = 80;
+            var eraseDelay = 30;
+            var pauseAfterType = 600;
+            var pauseAfterErase = 200;
+            var transformDuration = 3000;
+            var fadeDelay = 500;
+
+            function sleep(ms) {
+                return new Promise(function(r) { setTimeout(r, ms); });
+            }
+
+            function typeText(el, text) {
+                return new Promise(function(resolve) {
+                    el.textContent = '';
+                    el.style.visibility = 'visible';
+                    var i = 0;
+                    function tick() {
+                        if (i < text.length) {
+                            el.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(tick, typeDelay);
+                        } else {
+                            resolve();
+                        }
+                    }
+                    tick();
+                });
+            }
+
+            function eraseText(el) {
+                return new Promise(function(resolve) {
+                    function tick() {
+                        var t = el.textContent;
+                        if (t.length > 0) {
+                            el.textContent = t.slice(0, -1);
+                            setTimeout(tick, eraseDelay);
+                        } else {
+                            resolve();
+                        }
+                    }
+                    tick();
+                });
+            }
+
+            function transformText(el, fromText, toText, duration) {
+                return new Promise(function(resolve) {
+                    var startTime = performance.now();
+                    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/你好世界ಅಆಇಈಉಊಋಎಏಐಒಓಔಕಖಗಘಙಚಛಜಝಞಟಠಡಢಣತಥದಧನಪಫಬಭಮಯರಲವಶಷಸಹಳ';
+
+                    function shuffleChar(target, progress) {
+                        if (Math.random() < progress * 1.2) {
+                            return target;
+                        }
+                        return chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+
+                    var maxLen = Math.max(fromText.length, toText.length);
+                    var displayText = fromText.padEnd(maxLen, ' ');
+
+                    function animate(now) {
+                        var elapsed = now - startTime;
+                        var progress = Math.min(elapsed / duration, 1);
+                        var eased = 1 - Math.pow(1 - progress, 3);
+                        var result = '';
+
+                        for (var i = 0; i < maxLen; i++) {
+                            var targetChar = toText.charAt(i) || ' ';
+                            var fromChar = displayText.charAt(i) || ' ';
+                            if (i < toText.length && eased > 0.85) {
+                                result += targetChar;
+                            } else {
+                                var threshold = eased * 1.5;
+                                if (Math.random() < threshold || i === 0) {
+                                    result += targetChar;
+                                } else {
+                                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                                }
+                            }
+                        }
+
+                        el.textContent = result;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            el.textContent = toText;
+                            resolve();
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                });
+            }
+
+            async function main() {
+                await sleep(300);
+                await typeText(greetingEl, phrases[0]);
+                await sleep(pauseAfterType);
+                await eraseText(greetingEl);
+                await sleep(pauseAfterErase);
+                await typeText(mainTextEl, phrases[1]);
+                await sleep(pauseAfterType);
+                await transformText(mainTextEl, phrases[1], targetText, transformDuration);
+                await sleep(fadeDelay);
+                helloCard.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                helloCard.style.opacity = '0';
+                helloCard.style.transform = 'scale(0.9)';
+                await sleep(800);
+                helloCard.style.display = 'none';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                fetchWeather();
+            }
+
+            main();
+        })();
+    </script>
+</body>
+</html>
